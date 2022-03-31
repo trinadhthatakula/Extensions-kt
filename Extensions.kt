@@ -23,10 +23,6 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ListResult
-import com.google.firebase.storage.StorageReference
 import com.demo.BuildConfig
 import com.demo.R
 import java.io.File
@@ -35,8 +31,6 @@ import java.io.IOException
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 ///get Uri of any resource
 internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri = Uri.Builder()
