@@ -58,6 +58,44 @@ fun View.toBitmap(): Bitmap {
     return bitmap
 }
 
+///Convert View to Bitmap more of a screenshot with callback
+///you can replace activity with other supported variants 
+fun View.getScreenShot(activity: Activity, callback: (Bitmap) -> Unit) {
+    activity.window?.let { window ->
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val locationOfViewInWindow = IntArray(2)
+        getLocationInWindow(locationOfViewInWindow)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PixelCopy.request(
+                    window,
+                    Rect(
+                        locationOfViewInWindow[0],
+                        locationOfViewInWindow[1],
+                        locationOfViewInWindow[0] + width,
+                        locationOfViewInWindow[1] + height
+                    ), bitmap, { copyResult ->
+                        when (copyResult) {
+                            PixelCopy.SUCCESS -> {
+                                callback(bitmap)
+                            }
+                            // possible to handle other result codes ...
+                            else -> {
+
+                            }
+                        }
+                        
+                    },
+                    Handler(Looper.getMainLooper())
+                )
+            }
+        } catch (e: IllegalArgumentException) {
+            // PixelCopy may throw IllegalArgumentException, make sure to handle it
+            e.printStackTrace()
+        }
+    }
+}
+
 @Suppress("DEPRECATION")
 fun Uri.getBitmap(context: Context): Bitmap{
     return if(Build.VERSION.SDK_INT < 28) {
