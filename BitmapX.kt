@@ -14,8 +14,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+///There will be multiple functions for the same task use as per your requirement
+
 ///get Bitmap From VectorResource 
-///if we import an svg file to android studio it will be converted to xml file
+///if we import an SVG file to android studio it will be converted to xml file
 ///Use this method to convert that xml to bitmap
 fun bitmapFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDescriptor {
     val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
@@ -32,7 +34,6 @@ fun bitmapFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDes
     return bitmap
 }
 
-///There will be multiple functions for the same task use as per your requirement
 ///Write a Bitmap into a file
 fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG, quality: Int = 85) {
     outputStream().use { out ->
