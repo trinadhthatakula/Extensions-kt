@@ -32,6 +32,124 @@ import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
 
+///Initiate and Return CameraController and display camera feed in PreviewView - CameraX
+///Change use cases as you require, Activity or Fragment can be lifecycleOwner
+fun LifecycleOwner.initCameraController(
+    context: Context,
+    previewView: PreviewView,
+    hasZoom: Boolean = true,
+    hasTapToFocus: Boolean = true,
+    vararg useCases: Int = intArrayOf(CameraController.IMAGE_CAPTURE,CameraController.IMAGE_ANALYSIS)
+): CameraController {
+    val cameraController = LifecycleCameraController(context)
+    cameraController.bindToLifecycle(this)
+    previewView.controller = cameraController
+    cameraController.isPinchToZoomEnabled = hasZoom
+    cameraController.isTapToFocusEnabled = hasTapToFocus
+    useCases.forEach { cameraController.setEnabledUseCases(it) }
+    return cameraController
+}
+
+///Init CameraController and generate a PreviewView for Compose
+///Change Use cases as required, use the resulting PreviewView as required
+@Composable
+fun InitCameraController(
+    hasZoom: Boolean = true,
+    hasTapToFocus: Boolean = true,
+    onInitialized: (PreviewView, CameraController)->Unit,   
+    vararg useCases: Int = intArrayOf(CameraController.IMAGE_CAPTURE,CameraController.IMAGE_ANALYSIS)
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val previewView: PreviewView = remember { PreviewView(context) }
+    val cameraController = LifecycleCameraController(context)
+
+    LaunchedEffect(Unit) {
+        cameraController.bindToLifecycle(lifecycleOwner)
+        previewView.controller = cameraController
+        useCases.forEach { cameraController.setEnabledUseCases(it) }
+        cameraController.isPinchToZoomEnabled = hasZoom
+        cameraController.isTapToFocusEnabled = hasTapToFocus
+        onInitialized(previewView,cameraController)
+    }
+}
+
+
+///Init CameraController with Predefined previewView in Compose
+///Change Use cases as required, use the resulting PreviewView as required
+@Composable
+fun InitCameraController(
+    previewView: PreviewView,
+    hasZoom: Boolean = true,
+    hasTapToFocus: Boolean = true,
+    onInitialized: (CameraController)->Unit,
+    vararg useCases: Int = intArrayOf(CameraController.IMAGE_CAPTURE,CameraController.IMAGE_ANALYSIS)
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val cameraController = LifecycleCameraController(context)
+
+    LaunchedEffect(Unit) {
+        cameraController.bindToLifecycle(lifecycleOwner)
+        previewView.controller = cameraController
+        useCases.forEach { cameraController.setEnabledUseCases(it) }
+        cameraController.isPinchToZoomEnabled = hasZoom
+        cameraController.isTapToFocusEnabled = hasTapToFocus
+        onInitialized(cameraController)
+    }
+}
+
+
+
+///Format any Int value to INR - change fractions as needed
+fun Int.formatAsINR(): String {
+    val formatter = NumberFormat.getCurrencyInstance()
+    formatter.maximumFractionDigits = 0
+    formatter.currency = Currency.getInstance(Locale("en", "IN"))
+    return formatter.format(this)
+}
+
+///Format any Int value to USD - change fractions as needed
+fun Int.formatAsUSD(): String {
+    val formatter = NumberFormat.getCurrencyInstance()
+    formatter.maximumFractionDigits = 0
+    formatter.currency = Currency.getInstance(Locale.US)
+    return formatter.format(this)
+}
+
+
+///Check If a PDF is password Protected
+fun checkIfPdfIsPasswordProtected(file: File): Boolean {
+    val parcelFileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+        ?: return false
+    return try {
+        PdfRenderer(parcelFileDescriptor)
+        false
+    } catch (securityException: SecurityException) {
+        true
+    } catch (invalidPassword: InvalidPasswordException) {
+        true
+    }
+}
+
+///getAppIcon of any app installed with just packagename and context
+///your app must declare the target app in queries or have query all packages permission
+fun getAppIcon(packageName: String?, context: Context): Drawable? {
+    return packageName?.let {
+        try {
+            context.packageManager.getApplicationIcon(packageName)
+        } catch (e: Exception) {
+            null
+        }
+    }
+}
+
+///get color Int From attr name (example: R.attr.colorPrimary)
+@ColorInt
+fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
+    .apply { theme.resolveAttribute(attrRes, this, true) }
+    .data
+
 ///get Uri of any resource
 internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri = Uri.Builder()
     .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -340,6 +458,22 @@ fun View.performBasicTouchAt(x: Float = 0f, y: Float = 0f) {
     )
 
 }
+
+///Share a String
+fun String.share(subject: String = "Subject", shareHint: String = "Choose One",context: Context): Boolean {
+    return try {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, this)
+        context.startActivity(Intent.createChooser(shareIntent, shareHint))
+        true
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        false
+    }
+}
+
 
 ///hide softkeyboard
 fun Activity.hideKeyboard() {
