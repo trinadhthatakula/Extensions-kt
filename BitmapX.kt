@@ -73,7 +73,7 @@ fun View.saveToFile(
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
     quality: Int = 85
 ): Boolean {
-    return drawToBitmap().saveToFile(file, format, quality)
+    return toBitmap().saveToFile(file, format, quality)
 }
 
 ///Convert a view into bitmap without drawing cache
