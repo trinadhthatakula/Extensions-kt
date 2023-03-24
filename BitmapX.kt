@@ -67,13 +67,27 @@ fun Bitmap.saveToFile(file: File, format: Bitmap.CompressFormat = Bitmap.Compres
     }
 }
 
+///Save a view to file
+fun View.saveToFile(
+    file: File,
+    format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
+    quality: Int = 85
+): Boolean {
+    return drawToBitmap().saveToFile(file, format, quality)
+}
+
 ///Convert a view into bitmap without drawing cache
 fun View.toBitmap(): Bitmap {
-    var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
-    bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-    val canvas = Canvas(bitmap)
-    this.draw(canvas)
-    return bitmap
+    return try{
+        var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = Canvas(bitmap)
+        this.draw(canvas)
+        bitmap
+    }catch (e: Exception) {
+        e.printStackTrace()
+        drawToBitmap()
+    }
 }
 
 ///Convert View to Bitmap more of a screenshot with callback
@@ -106,7 +120,7 @@ fun View.getScreenShot(activity: Activity, callback: (Bitmap) -> Unit) {
                     },
                     Handler(Looper.getMainLooper())
                 )
-            }
+            } else toBitmap()
         } catch (e: IllegalArgumentException) {
             // PixelCopy may throw IllegalArgumentException, make sure to handle it
             e.printStackTrace()
