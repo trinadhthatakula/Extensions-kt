@@ -80,28 +80,26 @@ fun InitCameraController(
  *Change Use cases as required, use the resulting PreviewView as required
  */
 @Composable
-fun InitCameraController(
+fun initCameraController(
     previewView: PreviewView,
     hasZoom: Boolean = true,
     hasTapToFocus: Boolean = true,
-    onInitialized: (CameraController) -> Unit,
     vararg useCases: Int = intArrayOf(
         CameraController.IMAGE_CAPTURE,
         CameraController.IMAGE_ANALYSIS
     )
-) {
+) : CameraController{
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraController = LifecycleCameraController(context)
-
     LaunchedEffect(Unit) {
         cameraController.bindToLifecycle(lifecycleOwner)
         previewView.controller = cameraController
         useCases.forEach { cameraController.setEnabledUseCases(it) }
         cameraController.isPinchToZoomEnabled = hasZoom
         cameraController.isTapToFocusEnabled = hasTapToFocus
-        onInitialized(cameraController)
     }
+    return cameraController
 }
 
 /**Init ImageCapture Use case using Camera Provider*/
