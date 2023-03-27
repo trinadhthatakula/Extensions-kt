@@ -18,7 +18,7 @@ What's inside:
 9. [Scale a Bitmap while preserving it's aspect ratio](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L217-L231)
 10. [Copy a file using it's URI](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L250-L262)
 11. [Copy a File to another location by using File object from Java IO](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L265-L275)
-12. [convert a vector xml file to bitmap](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L22-L35)
+12. [Convert a vector xml file to bitmap](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L22-L35)
 
 # CameraX Extensions: [CameraX.kt](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ComposeX.kt)
 
@@ -35,7 +35,7 @@ What's inside:
 2. [Get Theme Color Using attr name](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L66-L69)
 3. [Get Resource URI of any res id](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L72-L76)
 4. [Get Res ID from it's name - not recommended to use](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L79-L85)
-5. [Get Drawable ID from it's name not recommended to use](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L88-L94)
+5. [Get Drawable ID from it's name - not recommended to use](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L88-L94)
 6. [Get App Icon of any other installed app - requires little setUp](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L55-L63)
 7. [Get LayoutInflator form Context](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L23-L24)
 8. [Get InputMethodManager form context](https://github.com/trinadhthatakula/Extensions-kt/blob/5dc0354c71920640e20c955adb709d834141f82e/ContextX.kt#L26-L27)
