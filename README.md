@@ -21,7 +21,7 @@ What's inside:
 12. [convert a vector xml file to bitmap](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L22-L35)
 
 # CameraX Extensions: CameraX.kt
-)
+
 1. [Initialize CameraController using given PreviewView to show Camera Feed](https://github.com/trinadhthatakula/Extensions-kt/blob/c345adad40f1884f922cfa17515b2aaacac05134/CameraX.kt#L29-L46)
 2. [Initialize CameraController and PreviewView and return them as callback for compose](https://github.com/trinadhthatakula/Extensions-kt/blob/c345adad40f1884f922cfa17515b2aaacac05134/CameraX.kt#L52-L75)
 3. [Initalize CameraController using provided PreviewView to Show Camera Feed for Compose](https://github.com/trinadhthatakula/Extensions-kt/blob/c345adad40f1884f922cfa17515b2aaacac05134/CameraX.kt#L82-L103)
