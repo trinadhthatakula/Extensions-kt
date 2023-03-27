@@ -1,5 +1,6 @@
 # Extensions-kt
-A repository for all extensions which I use on a daily basis
+A repository for all extensions which I use on a daily basis, this repo is to help developers in building apps much faster by providing frequently used code snippets in one place
+Feel Free to contribute
 
 kotlin version => 1.8.10
 
