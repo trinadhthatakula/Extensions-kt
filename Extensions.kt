@@ -1,5 +1,3 @@
-package com.demo
-
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentResolver

@@ -1,5 +1,3 @@
-package com.rstech.camerascanner.pdfscanner.camscanner.easy.scan.camscanner.model
-
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
@@ -74,7 +72,16 @@ fun View.saveToFile(
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
     quality: Int = 85
 ): Boolean {
-    return toBitmap().saveToFile(file, format, quality)
+    return try{
+        var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = Canvas(bitmap)
+        this.draw(canvas)
+        bitmap
+    }catch (e: Exception) {
+        e.printStackTrace()
+        drawToBitmap()
+    }.saveToFile(file, format, quality)
 }
 
 ///Convert a view into bitmap without drawing cache
@@ -117,11 +124,20 @@ fun View.getScreenShot(activity: Activity, callback: (Bitmap) -> Unit) {
 
                             }
                         }
-                        
+
                     },
                     Handler(Looper.getMainLooper())
                 )
-            } else toBitmap()
+            } else try{
+                var bitmapN = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+                bitmapN = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+                val canvas = Canvas(bitmap)
+                this.draw(canvas)
+                callback(bitmapN)
+            }catch (e: Exception) {
+                e.printStackTrace()
+                callback(drawToBitmap())
+            }
         } catch (e: IllegalArgumentException) {
             // PixelCopy may throw IllegalArgumentException, make sure to handle it
             e.printStackTrace()
