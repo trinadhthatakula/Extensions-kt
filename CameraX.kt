@@ -1,5 +1,3 @@
-package com.rstech.camerascanner.pdfscanner.camscanner.easy.scan.camscanner.model
-
 import android.content.Context
 import android.os.Build
 import androidx.camera.core.CameraSelector
