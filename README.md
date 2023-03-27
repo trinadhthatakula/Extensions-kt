@@ -29,4 +29,18 @@ What's inside:
 5. [Create ImageCapture UseCase](https://github.com/trinadhthatakula/Extensions-kt/blob/c345adad40f1884f922cfa17515b2aaacac05134/CameraX.kt#L106-L128)
 6. [Create VideoCapture UseCase](https://github.com/trinadhthatakula/Extensions-kt/blob/c345adad40f1884f922cfa17515b2aaacac05134/CameraX.kt#L131-L160)
 
+# Other Extensions: [Extensions.kt](https://github.com/trinadhthatakula/Extensions-kt/blob/main/Extensions.kt)
+
+1. [Format an Int vale to USD like 1000000 to 1,000,000](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L113-L118)
+2. [Format an Int value to INR like 1000000 to 10,00,000](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L105-L110)
+3. [Check if a PDF is Password Protected](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L122-L133)
+4. [Convert Int to DP or PX](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L209-L210)
+5. [Convert Dp to Px](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L213-L217)
+6. [Get ScreenHeight or ScreenWidth of the Device](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L357-L358)
+7. [Copy a String to Clipboard](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L438-L447)
+8. [Perform basic touch at a point with x,y as coordinates](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L450-L460)
+9. [Share a String](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L463-L475)
+
+
+
 
