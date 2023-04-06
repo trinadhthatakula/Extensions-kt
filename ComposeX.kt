@@ -5,6 +5,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.airbnb.lottie.compose.*
 
+///LazyGrid doesn't have a header while lazyRow has one so why not write our own header implementation
+@LazyGridScopeMarker
+fun LazyGridScope.header(
+    content: @Composable LazyGridItemScope.() -> Unit
+) {
+    item(span = { GridItemSpan(this.maxLineSpan) }, content = content)
+}
+
 ///Compose function to animate Lottie Raw file easily
 @Composable
 fun AnimateLottieRaw(
