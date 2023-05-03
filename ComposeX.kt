@@ -32,3 +32,42 @@ fun AnimateLottieRaw(
         modifier = modifier,
     )
 }
+
+///Custom tab indicator pill 💊 style
+@Composable
+private fun CustomTabIndicator(tabPositions: List<TabPosition>, tabTitle: TabPage) {
+    val transition = updateTransition(targetState = tabTitle, label = "Tab indicator")
+    val indicatorLeft by transition.animateDp(
+        transitionSpec = {
+            if (TabPage.Address isTransitioningTo TabPage.Maps) {
+                spring(stiffness = Spring.StiffnessLow)
+            } else {
+                spring(stiffness = Spring.StiffnessMedium)
+            }
+        }, label = "Indicator Left"
+    ) { page ->
+        tabPositions[page.ordinal].left
+    }
+    val indicatorRight by transition.animateDp(
+        transitionSpec = {
+            if (TabPage.Address isTransitioningTo TabPage.Maps) {
+                spring(stiffness = Spring.StiffnessMedium)
+            } else {
+                spring(stiffness = Spring.StiffnessLow)
+            }
+        }, label = "Indicator Right"
+    ) { page ->
+        tabPositions[page.ordinal].right
+    }
+    val color = MaterialTheme.colorScheme.primary
+    Box(
+        Modifier
+            .fillMaxHeight()
+            .wrapContentSize(align = Alignment.BottomStart)
+            .offset(x = indicatorLeft)
+            .width(indicatorRight - indicatorLeft)
+            .fillMaxHeight()
+            .background(color = color, shape = RoundedCornerShape(50.dp))
+            .zIndex(1f)
+    )
+}
