@@ -1,9 +1,19 @@
-import androidx.annotation.RawRes
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import com.airbnb.lottie.compose.*
+///kotlinx-datetime = get LocalDateTime at zero hour 
+fun LocalDateTime.atZeroHour(): LocalDateTime {
+    return LocalDateTime(this.year, this.month, this.dayOfMonth, 0, 0)
+}
+
+///kotlinx-datetime = get Millis from localDateTime
+fun LocalDateTime.millis(timeZone: TimeZone = TimeZone.currentSystemDefault()): Long {
+    return this.toInstant(timeZone).toEpochMilliseconds()
+}
+
+///Millis to LocalDateTime
+fun Long.toLocalDateTime(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): LocalDateTime {
+    return Instant.fromEpochMilliseconds(this).toLocalDateTime(timeZone)
+}
 
 ///LazyGrid doesn't have a header while lazyRow has one so why not write our own header implementation
 @LazyGridScopeMarker
