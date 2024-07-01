@@ -2,7 +2,7 @@
 A repository for all extensions which I use on a daily basis, this repo is to help developers in building apps much faster by providing frequently used code snippets in one place
 Feel Free to contribute
 
-kotlin version => 1.9.22
+kotlin version => 2.0.0
 
 What's inside: 
 
@@ -55,4 +55,8 @@ What's inside:
 8. [Perform basic touch at a point with x,y as coordinates](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L450-L460)
 9. [Share a String](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L463-L475)
 
-
+# Composables: 
+1. [Lottie Raw Animator](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L27-L44)
+2. [Custom Pill Shape Tab Indicator 💊 ](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L47-L83)
+3. [Horizontal Calendar view](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L126-L591)
+4. [Compose Image Picker in BottomSheet](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ImagePickerBS)
