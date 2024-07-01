@@ -55,10 +55,26 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 /**
-* ImagePickerBs is a composable that allows you to pick an image from the gallery or take a photo
-* it displays a modal bottom sheet with two buttons, one for the gallery and the other for the camera
-* it also allows you to choose from recent wallpapers if the folder exists and is not empty
-*/
+ * ImagePickerBs is a composable that allows you to pick an image from the gallery or take a photo,
+ * it displays a modal bottom sheet with two buttons, one for the gallery and the other for the camera,
+ * it also allows you to choose from recent wallpapers if the folder exists and is not empty,
+ * this also resizes the image to a maximum width and height without loosing original aspect ratio if skipResize is false
+ * i.e it will resize the image to fit within the maximum width and height
+ * image width may not be equal to max width and max height
+ * 
+ * Note: this composable uses Coil to load images from the file system
+ *
+ * @param showImagesFromParent if true, it will show images from the parent folder
+ * @param allowDelete if true, it will allow you to delete images from the parent folder
+ * @param file the file where the image will be saved
+ * @param skipResize if true, it will not resize the image, may cause out of memory error
+ * @param maxBitmapWidth the maximum width of the bitmap
+ * @param maxBitmapHeight the maximum height of the bitmap
+ * @param onDismissRequest a lambda that will be called when the modal bottom sheet is dismissed
+ * @param onImagePicked a lambda that will be called when an image is picked
+ * @param onShowProgress a lambda that will be called when the image is being processed
+ * @param modifier the modifier for the modal bottom sheet
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagePickerBs(
@@ -66,10 +82,12 @@ fun ImagePickerBs(
     file: File, ///file used to save image for future use
     maxBitmapWidth: Int = 1024,
     maxBitmapHeight: Int = 1024,
+    skipResize: Boolean = false,
     onDismissRequest: () -> Unit,
     onImagePicked: (File) -> Unit,
     onShowProgress: (Boolean) -> Unit = {},
-    showImagesFromParent: Boolean = true
+    showImagesFromParent: Boolean = true,
+    allowDelete: Boolean = true
 ) {
     val scope = rememberCoroutineScope()
     val folder = file.parentFile
@@ -87,7 +105,7 @@ fun ImagePickerBs(
 
                     if (uri != null) {
                         val bitmap = uri.getBitmap(context)
-                        if (bitmap.width > maxBitmapWidth || bitmap.height > maxBitmapHeight) {
+                        if (bitmap.width > maxBitmapWidth || bitmap.height > maxBitmapHeight || !skipResize) {
                             scope.launch {
                                 withContext(Dispatchers.IO) {
                                     if (bitmap.width > bitmap.height) {
@@ -136,7 +154,7 @@ fun ImagePickerBs(
             try {
                 if (success) {
                     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                    if (bitmap.width > maxBitmapWidth || bitmap.height > maxBitmapHeight) {
+                    if (bitmap.width > maxBitmapWidth || bitmap.height > maxBitmapHeight || !skipResize) {
                         scope.launch {
                             withContext(Dispatchers.IO) {
                                 if (bitmap.width > bitmap.height) {
@@ -271,21 +289,22 @@ fun ImagePickerBs(
                                         },
                                     contentScale = ContentScale.Crop
                                 )
-                                Icon(
-                                    imageVector = Icons.Filled.Close,
-                                    contentDescription = "Remove",
-                                    modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .size(20.dp)
-                                        .padding(2.dp)
-                                        .background(Color.White, shape = CircleShape)
-                                        .clip(CircleShape)
-                                        .padding(2.dp)
-                                        .clickable {
-                                            it.delete()
-                                            filesList.remove(it)
-                                        }
-                                )
+                                if (allowDelete)
+                                    Icon(
+                                        imageVector = Icons.Filled.Close,
+                                        contentDescription = "Remove",
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .size(20.dp)
+                                            .padding(2.dp)
+                                            .background(Color.White, shape = CircleShape)
+                                            .clip(CircleShape)
+                                            .padding(2.dp)
+                                            .clickable {
+                                                it.delete()
+                                                filesList.remove(it)
+                                            }
+                                    )
                             }
                         }
                     }
@@ -314,8 +333,8 @@ fun Bitmap.saveToFile(
 }
 
 @Suppress("DEPRECATION")
-fun Uri.getBitmap(context: Context): Bitmap{
-    return if(Build.VERSION.SDK_INT < 28) {
+fun Uri.getBitmap(context: Context): Bitmap {
+    return if (Build.VERSION.SDK_INT < 28) {
         MediaStore.Images.Media.getBitmap(
             context.contentResolver,
             this
