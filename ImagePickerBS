@@ -200,9 +200,12 @@ fun ImagePickerBs(
         },
         modifier = modifier
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(5.dp)
+        ) {
             Text(
-                "Change Image",
+                "Choose an Image",
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(),
@@ -211,7 +214,7 @@ fun ImagePickerBs(
                 textAlign = TextAlign.Center
             )
             Text(
-                "Choose an image from the gallery or take a photo",
+                "from the gallery or take a photo",
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(),
