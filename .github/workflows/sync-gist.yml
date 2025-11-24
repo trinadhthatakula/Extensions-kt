@@ -1,0 +1,23 @@
+name: Sync Architecture Gist
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '**/CoreArchitecture.kt' # Only runs when this specific file changes
+
+jobs:
+  update-gist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GH_PAT }} # Uses your existing PAT
+          gist_description: "⚡ Trinadh's Core Android Architecture (Kotlin + Koin)"
+          gist_id: ${{ secrets.GIST_ID_ARCH }} # We will create this next
+          file_path: ./path/to/your/CoreArchitecture.kt # Update this path matches your repo structure
+          file_type: text
