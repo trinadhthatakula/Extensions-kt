@@ -3,6 +3,7 @@
  * Stack: Kotlin | Koin | Flow | Result Pattern
  * Author: Trinadh Thatakula
  */
+ 
 
 // 1. type-safe Result wrapper
 sealed interface DataResult<out T> {
