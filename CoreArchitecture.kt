@@ -4,14 +4,14 @@
  * Author: Trinadh Thatakula
  */
 
-// 1. type-safe Result wrapper (The "Senior" way to handle data)
+// 1. type-safe Result wrapper
 sealed interface DataResult<out T> {
     data class Success<T>(val data: T) : DataResult<T>
     data class Error(val exception: Throwable, val message: String? = null) : DataResult<Nothing>
     data object Loading : DataResult<Nothing>
 }
 
-// 2. The Extension Function (Your specialty)
+// 2. The Extension Function
 // Safely executes a network call and catches exceptions automatically
 suspend fun <T> safeApiCall(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -25,7 +25,7 @@ suspend fun <T> safeApiCall(
     }
 }
 
-// 3. Koin Module Definition (Showing you understand DI)
+// 3. Koin Module Definition
 val networkModule = module {
     single { 
         HttpClient(Android) {
