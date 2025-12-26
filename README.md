@@ -2,7 +2,7 @@
 A repository for all extensions which I use on a daily basis, this repo is to help developers in building apps much faster by providing frequently used code snippets in one place
 Feel Free to contribute
 
-kotlin version => 2.0.0
+kotlin version => 2.3.0
 
 What's inside: 
 
