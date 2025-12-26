@@ -42,32 +42,35 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
-import your.package.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import androidx.core.graphics.scale
 
 /**
  * ImagePickerBs is a composable that allows you to pick an image from the gallery or take a photo,
  * it displays a modal bottom sheet with two buttons, one for the gallery and the other for the camera,
  * it also allows you to choose from recent wallpapers if the folder exists and is not empty,
- * this also resizes the image to a maximum width and height without loosing original aspect ratio if skipResize is false
- * i.e it will resize the image to fit within the maximum width and height
+ * this also resizes the image to a maximum width and height
+ * without loosing an original aspect ratio if skipResize is false
+ * i.e., it will resize the image to fit within the maximum width and height
  * image width may not be equal to max width and max height
- * 
- * Note: this composable uses Coil to load images from the file system
+ *
+ * Note: this composable uses Coil to load images from the file system,
+ * also make sure your app has proper file provider setup
  *
  * @param showImagesFromParent if true, it will show images from the parent folder
  * @param allowDelete if true, it will allow you to delete images from the parent folder
  * @param file the file where the image will be saved
- * @param skipResize if true, it will not resize the image, may cause out of memory error
+ * @param skipResize if true, it will not resize the image, may cause out-of-memory error
  * @param maxBitmapWidth the maximum width of the bitmap
  * @param maxBitmapHeight the maximum height of the bitmap
  * @param onDismissRequest a lambda that will be called when the modal bottom sheet is dismissed
@@ -112,23 +115,13 @@ fun ImagePickerBs(
                                         val ratio = bitmap.width.toFloat() / bitmap.height.toFloat()
                                         val newHeight = (maxBitmapWidth / ratio).toInt()
                                         val newBitmap =
-                                            Bitmap.createScaledBitmap(
-                                                bitmap,
-                                                maxBitmapWidth,
-                                                newHeight,
-                                                true
-                                            )
+                                            bitmap.scale(maxBitmapWidth, newHeight)
                                         newBitmap.saveToFile(file)
                                     } else {
                                         val ratio = bitmap.height.toFloat() / bitmap.width.toFloat()
                                         val newWidth = (maxBitmapHeight / ratio).toInt()
                                         val newBitmap =
-                                            Bitmap.createScaledBitmap(
-                                                bitmap,
-                                                newWidth,
-                                                maxBitmapHeight,
-                                                true
-                                            )
+                                            bitmap.scale(newWidth, maxBitmapHeight)
                                         newBitmap.saveToFile(file)
                                     }
                                     onImagePicked(file)
@@ -161,23 +154,13 @@ fun ImagePickerBs(
                                     val ratio = bitmap.width.toFloat() / bitmap.height.toFloat()
                                     val newHeight = (maxBitmapWidth / ratio).toInt()
                                     val newBitmap =
-                                        Bitmap.createScaledBitmap(
-                                            bitmap,
-                                            maxBitmapWidth,
-                                            newHeight,
-                                            true
-                                        )
+                                        bitmap.scale(maxBitmapWidth, newHeight)
                                     newBitmap.saveToFile(file)
                                 } else {
                                     val ratio = bitmap.height.toFloat() / bitmap.width.toFloat()
                                     val newWidth = (maxBitmapHeight / ratio).toInt()
                                     val newBitmap =
-                                        Bitmap.createScaledBitmap(
-                                            bitmap,
-                                            newWidth,
-                                            maxBitmapHeight,
-                                            true
-                                        )
+                                        bitmap.scale(newWidth, maxBitmapHeight)
                                     newBitmap.saveToFile(file)
                                 }
                                 onImagePicked(file)
@@ -205,7 +188,7 @@ fun ImagePickerBs(
             modifier = Modifier.padding(5.dp)
         ) {
             Text(
-                "Choose an Image",
+                stringResource(R.string.choose_an_image),
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(),
@@ -318,7 +301,7 @@ fun ImagePickerBs(
 }
 
 
-///Save a bitmap into file
+///Save a bitmap into a file
 fun Bitmap.saveToFile(
     file: File,
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
@@ -348,7 +331,7 @@ fun Uri.getBitmap(context: Context): Bitmap {
     }
 }
 
-///Copy content of an uri to another file
+///Copy content of a uri to another file
 fun Uri.copyToFile(file: File, context: Context): Boolean {
     return try {
         context.contentResolver.openInputStream(this).use { input ->
