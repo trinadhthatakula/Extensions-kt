@@ -1,32 +1,37 @@
+
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
+import android.view.PixelCopy
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.drawToBitmap
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import androidx.core.graphics.createBitmap
 
 ///There will be multiple functions for the same task use as per your requirement
 
 ///get Bitmap From VectorResource 
-///if we import an SVG file to android studio it will be converted to xml file
-///Use this method to convert that xml to bitmap
-fun bitmapFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDescriptor {
+///if we import an SVG file to the Android Studio, it will be converted to XML file
+///Use this method to convert that XML to bitmap
+fun bitmapFromVector(context: Context, @DrawableRes vectorResId: Int): Bitmap {
     val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
     vectorDrawable!!.setBounds(0, 0, (vectorDrawable.intrinsicWidth),
         (vectorDrawable.intrinsicHeight)
     )
-    val bitmap = Bitmap.createBitmap(
-        (vectorDrawable.intrinsicWidth),
-        (vectorDrawable.intrinsicHeight),
-        Bitmap.Config.ARGB_8888
-    )
+    val bitmap = createBitmap((vectorDrawable.intrinsicWidth), (vectorDrawable.intrinsicHeight))
     val canvas = Canvas(bitmap)
     vectorDrawable.draw(canvas)
     return bitmap
@@ -40,7 +45,7 @@ fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.Comp
     }
 }
 
-///Save a bitmap into path
+///Save a bitmap into a path
 fun Bitmap.save(path: String, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG, quality: Int = 85): Boolean {
     return try {
         val output = FileOutputStream(path)
@@ -53,7 +58,7 @@ fun Bitmap.save(path: String, format: Bitmap.CompressFormat = Bitmap.CompressFor
     }
 }
 
-///Save a bitmap into file
+///Save a bitmap into a file
 fun Bitmap.saveToFile(file: File, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG, quality: Int = 85): Boolean {
     return try {
         FileOutputStream(file).use { out ->
@@ -66,14 +71,14 @@ fun Bitmap.saveToFile(file: File, format: Bitmap.CompressFormat = Bitmap.Compres
     }
 }
 
-///Save a view to file
+///Save a view to a file
 fun View.saveToFile(
     file: File,
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
     quality: Int = 85
 ): Boolean {
     return try{
-        var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        var bitmap = createBitmap(this.width, this.height)
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(bitmap)
         this.draw(canvas)
@@ -87,7 +92,7 @@ fun View.saveToFile(
 ///Convert a view into bitmap without drawing cache
 fun View.toBitmap(): Bitmap {
     return try{
-        var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        var bitmap = createBitmap(this.width, this.height)
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(bitmap)
         this.draw(canvas)
@@ -102,7 +107,7 @@ fun View.toBitmap(): Bitmap {
 ///you can replace activity with other supported variants 
 fun View.getScreenShot(activity: Activity, callback: (Bitmap) -> Unit) {
     activity.window?.let { window ->
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(width, height)
         val locationOfViewInWindow = IntArray(2)
         getLocationInWindow(locationOfViewInWindow)
         try {
@@ -129,7 +134,7 @@ fun View.getScreenShot(activity: Activity, callback: (Bitmap) -> Unit) {
                     Handler(Looper.getMainLooper())
                 )
             } else try{
-                var bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+                var bitmap = createBitmap(this.width, this.height)
                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
                 val canvas = Canvas(bitmap)
                 this.draw(canvas)
@@ -158,7 +163,7 @@ fun Uri.getBitmap(context: Context): Bitmap{
     }
 }
 
-// Get average color of a bitmap
+// Get the average color of a bitmap
 fun calculateAverageColor(bitmap: Bitmap, pixelSpacing: Int): Int {
     var r = 0
     var g = 0
@@ -229,7 +234,7 @@ fun Bitmap.rotateBitmapByOrientation(contentResolver: ContentResolver, uri: Uri)
 val screenWidth: Int = Resources.getSystem().displayMetrics.widthPixels
 val screenHeight: Int = Resources.getSystem().displayMetrics.heightPixels
 
-///Scale Bitmap but keep aspect ratio
+///Scale Bitmap but keep an aspect ratio
 fun Bitmap.scaleBitmapAndKeepRation(
     reqHeight: Int = screenHeight,
     reqWidth: Int = screenWidth
@@ -253,7 +258,7 @@ fun Bitmap.rotateBy(angle: Float): Bitmap {
     return Bitmap.createBitmap(this, 0, 0, this.width / 2, this.height / 2, matrix, true)
 }
 
-///get Uri form file using file provider please check authority first
+///to get a Uri form file using the file provider, please check authority first
 fun File.getUri(context: Context): Uri{
     return FileProvider.getUriForFile(
         context,
@@ -262,7 +267,7 @@ fun File.getUri(context: Context): Uri{
     )
 }
 
-///Copy content of an uri to another file
+///Copy content of a uri to another file
 fun Uri.copyToFile(file: File, context: Context): Boolean {
     return try {
         context.contentResolver.openInputStream(this).use { input ->
