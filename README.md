@@ -6,6 +6,15 @@ kotlin version => 2.0.0
 
 What's inside: 
 
+# Composables: 
+1. [Lottie Raw Animator](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L27-L44)
+2. [Custom Pill Shape Tab Indicator 💊 ](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L47-L83)
+3. [Horizontal Calendar view](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L126-L591)
+4. [Compose Image Picker in BottomSheet](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ImagePickerBS)
+5. [Compose Time Picker](https://github.com/trinadhthatakula/Extensions-kt/blob/main/TimePicker.kt)
+6. [Compose Speech To Text](https://github.com/trinadhthatakula/Extensions-kt/tree/main/stt) - Contains Manager, ViewModel and a Compose Dialog with customizable options
+7. [Compose Text To Speech](https://github.com/trinadhthatakula/Extensions-kt/tree/main/tts) - Contains Manager and ViewModel. a plug and play solution, just call the viewModel and use speak function.
+
 # Bitmap Extensions: [BitmapX.kt](https://github.com/trinadhthatakula/Extensions-kt/blob/main/BitmapX.kt)
 
 1. [Save a Bitmap to File](https://github.com/trinadhthatakula/Extensions-kt/blob/53b75e923003d9ede2ca71f450755300bbdfc43b/BitmapX.kt#L59-L69)
@@ -55,8 +64,3 @@ What's inside:
 8. [Perform basic touch at a point with x,y as coordinates](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L450-L460)
 9. [Share a String](https://github.com/trinadhthatakula/Extensions-kt/blob/2913eddddb645d228217a9b9cebcf927d1b9cfd0/Extensions.kt#L463-L475)
 
-# Composables: 
-1. [Lottie Raw Animator](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L27-L44)
-2. [Custom Pill Shape Tab Indicator 💊 ](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L47-L83)
-3. [Horizontal Calendar view](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L126-L591)
-4. [Compose Image Picker in BottomSheet](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ImagePickerBS)
