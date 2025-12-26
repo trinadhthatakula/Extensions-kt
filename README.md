@@ -10,7 +10,7 @@ What's inside:
 1. [Lottie Raw Animator](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L27-L44)
 2. [Custom Pill Shape Tab Indicator 💊 ](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L47-L83)
 3. [Horizontal Calendar view](https://github.com/trinadhthatakula/Extensions-kt/blob/14ad31b3157b6b38aeb03fd26ce8c04d51ccf52f/ComposeX.kt#L126-L591)
-4. [Compose Image Picker in BottomSheet](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ImagePickerBS)
+4. [Compose Image Picker in BottomSheet](https://github.com/trinadhthatakula/Extensions-kt/blob/main/ImagePickerBS.kt)
 5. [Compose Time Picker](https://github.com/trinadhthatakula/Extensions-kt/blob/main/TimePicker.kt)
 6. [Compose Speech To Text](https://github.com/trinadhthatakula/Extensions-kt/tree/main/stt) - Contains Manager, ViewModel and a Compose Dialog with customizable options
 7. [Compose Text To Speech](https://github.com/trinadhthatakula/Extensions-kt/tree/main/tts) - Contains Manager and ViewModel. a plug and play solution, just call the viewModel and use speak function.
