@@ -1,6 +1,82 @@
-///kotlinx-datetime = get LocalDateTime at zero hour 
+import androidx.annotation.RawRes
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridScopeMarker
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.KeyboardArrowUp
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TabPosition
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.zIndex
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Month
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import java.time.format.TextStyle
+import java.util.Locale
+import kotlin.time.Clock
+import kotlin.time.Instant
+
+///kotlinx-datetime = get LocalDateTime at zero hour
 fun LocalDateTime.atZeroHour(): LocalDateTime {
-    return LocalDateTime(this.year, this.month, this.dayOfMonth, 0, 0)
+    return LocalDateTime(this.year, this.month, this.day, 0, 0)
 }
 
 ///kotlinx-datetime = get Millis from localDateTime
@@ -43,6 +119,11 @@ fun AnimateLottieRaw(
     )
 }
 
+enum class TabPage{
+    Address,
+    Maps
+}
+
 ///Custom tab indicator pill 💊 style
 @Composable
 private fun CustomTabIndicator(tabPositions: List<TabPosition>, tabTitle: TabPage) {
@@ -82,8 +163,8 @@ private fun CustomTabIndicator(tabPositions: List<TabPosition>, tabTitle: TabPag
     )
 }
 
-///For Multi PLatform projects where we can't use java specific classes like Decimal formatter
-///Add decimals to a Number includes int, float, double and long
+///For Multi Platform projects where we can't use java specific classes like Decimal formatter
+///Add decimals to a Number included int, float, double and long
 fun Number.addDecimals(maxDecimals: Int = 2): String {
     return if (!this.toString().contains(".")) {
         var result = this.toInt().toString() + "."
@@ -126,7 +207,7 @@ fun Number.addPrefixZeros(maxDigits: Int = 2): String {
 @Preview
 @Composable
 fun HorizontalCalendar(
-    modifier: Modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.primary),
+    modifier: Modifier = Modifier,
     localDateTime: LocalDateTime = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault()),
     onDateSelected: ((LocalDate) -> Unit)? = null
@@ -135,13 +216,13 @@ fun HorizontalCalendar(
     var selectedDate by remember {
         mutableStateOf<LocalDate?>(null)
     }
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.primary)) {
         val monthInitial = localDateTime.month
-        val dayInitial = localDateTime.dayOfMonth
+        val dayInitial = localDateTime.day
         val yearInitial = localDateTime.year
         var month by remember { mutableStateOf(localDateTime.month) }
         var year by remember { mutableIntStateOf(localDateTime.year) }
-        var day by remember { mutableIntStateOf(localDateTime.dayOfMonth) }
+        var day by remember { mutableIntStateOf(localDateTime.day) }
         var maxDays by remember { mutableIntStateOf(month.length(year.isLeapYear())) }
 
         val scrollState = rememberLazyListState()
@@ -247,10 +328,9 @@ fun HorizontalCalendar(
             }
 
             if(showMonthView) {
-                AlertDialog(
+                Dialog(
                     onDismissRequest = { showMonthView = false },
                     properties = DialogProperties(usePlatformDefaultWidth = false),
-                    modifier = Modifier.align(Alignment.TopCenter)
                 ) {
                     MonthGrid(month, year, yearInitial, monthInitial) { monthSelected, yearSelected ->
                         month = monthSelected
@@ -333,6 +413,7 @@ fun HorizontalCalendar(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun MonthGrid(
@@ -427,7 +508,7 @@ fun MonthGrid(
                 linkTo(parent.start, parent.end, startMargin = 5.dp, endMargin = 5.dp)
                 width = Dimension.fillToConstraints
             }) {
-                items(java.time.Month.values()) {
+                items(Month.entries.toTypedArray()) {
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 10.dp, vertical = 10.dp)
@@ -458,10 +539,9 @@ fun MonthGrid(
         }
 
         if(yearGrid){
-            AlertDialog(
+            Dialog(
                 onDismissRequest = { yearGrid = false },
                 properties = DialogProperties(usePlatformDefaultWidth = false),
-                modifier = Modifier.align(Alignment.TopCenter)
             ) {
                 YearGrid(year){
                     yearState = it
@@ -590,7 +670,7 @@ fun YearGrid(
     }
 }
 
-
+/// demo 
 val dmSansFont = FontFamily(
     Font(R.font.dmsans_regular, weight = FontWeight.Normal, style = FontStyle.Normal),
     Font(R.font.dmsans_italic, weight = FontWeight.Normal, style = FontStyle.Italic),
